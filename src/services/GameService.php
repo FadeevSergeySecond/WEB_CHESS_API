@@ -2,12 +2,6 @@
 
 class GameService
 {
-    // ['from' => int, 'to' => string from one char];
-
-    // newMove = [
-    //  'from' => ['line' => int, 'column' => string,],
-    //  'to'   => ['line' => int, 'column' => string,],
-    // ]
     public static function validateMove($newMove)
     {
         try {
@@ -20,7 +14,10 @@ class GameService
 
             $fromLine = $newMove['from']['line'];
             $fromColumn = $newMove['from']['column'];
+            $toLine = $newMove['to']['line'];
+            $toColumn = $newMove['to']['column'];
             $figureOnStartCell = $board[$fromLine][$fromColumn];
+            $figureOnFinishCell = $board[$toLine][$toColumn];
 
             if ($gameOver == true) {
                 return [
@@ -43,33 +40,47 @@ class GameService
                 ];
             }
 
+            if (($fromLine - $toLine == 0) && (ord($fromColumn) - ord($toColumn) == 0)) {
+                return [
+                    'ok' => false,
+                    'message' => 'You cannot make the move to the same cage.',
+                ];
+            }
+
             $result = null;
 
             switch ($figureOnStartCell['name']) {
                 case 'King':
-                    $result = King::validateMove($newMove,$board);
+                    $result = King::validateMove($newMove, $board);
                     break;
                 case 'Queen':
-                    $result = Queen::validateMove($newMove,$board);
+                    $result = Queen::validateMove($newMove, $board);
                     break;
                 case 'Rook':
-                    $result = Rook::validateMove($newMove,$board);
+                    $result = Rook::validateMove($newMove, $board);
                     break;
                 case 'Knight':
-                    $result = Knight::validateMove($newMove,$board);
+                    $result = Knight::validateMove($newMove, $board);
                     break;
                 case 'Bishop':
-                    $result = Bishop::validateMove($newMove,$board);
+                    $result = Bishop::validateMove($newMove, $board);
                     break;
                 case 'Pawn':
-                    $result = Pawn::validateMove($newMove,$board);
+                    $result = Pawn::validateMove($newMove, $board);
                     break;
             }
 
-            if (!$result) {
+            if ($result['ok'] == false) {
                 return [
                     'ok' => false,
                     'message' => 'Invalid move for this fig',
+                ];
+            }
+
+            if ($figureOnStartCell['color'] == $figureOnFinishCell['color']) {
+                return [
+                    'ok' => false,
+                    'message' => 'You can’t go to the field occupied by your figure',
                 ];
             }
 
@@ -86,7 +97,8 @@ class GameService
     }
 
 
-    public static function updateBoard($newMove) {
+    public static function updateBoard($newMove)
+    {
         try {
             $newMove = json_decode($newMove, true);
 
