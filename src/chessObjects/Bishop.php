@@ -1,7 +1,7 @@
 <?php
 
-require_once('/Users/Fadeev/Downloads/vk/src/chessObjects/Figure.php');
-
+//require_once('/Users/Fadeev/Downloads/vk/src/chessObjects/Figure.php');
+include 'Figure.php';
 class Bishop extends Figure
 {
     public static function validateMove($newTurn, &$board)

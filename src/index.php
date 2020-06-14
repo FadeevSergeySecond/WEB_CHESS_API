@@ -1,7 +1,7 @@
 <?php
-//require_once('./src/chessObjects/Pawn.php');
-require_once('/Users/Fadeev/Downloads/vk/src/controllers/GameController.php');
-//
+
+require_once('./../src/controllers/GameController.php');
+
 //switch ($_SERVER['REQUEST_METHOD']) {
 //    case 'POST':
 //        GameController::startGame();

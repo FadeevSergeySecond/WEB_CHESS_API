@@ -28,7 +28,7 @@ class GameState implements JsonSerializable
         }
 
         foreach ($columns as $column) {
-            self::$board[2][$column] = new Pawn('hite');
+            self::$board[2][$column] = new Pawn('white');
             self::$board[7][$column] = new Pawn('black');
         }
 
