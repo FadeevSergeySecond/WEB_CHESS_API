@@ -139,7 +139,8 @@ JSON, описывающих ход E2 - E4
     "message": "Сообщение об ошибке"
 }
 ```
-если новый ход сделан не был.  
+если новый ход сделан не был. 
+ 
 Возможные сообщения об ошибке:  
 
 * Input is not json
@@ -167,3 +168,5 @@ JSON, описывающих ход E2 - E4
 * A rook cannot jump over shapes
 * A move is impossible. Checkmate declared to the white/black king
 * As a result of the move, the king will be under the check
+
+Если белая пешка достигает линии №8, или черная пешка достигает линии №1, то она становится ферзем.
