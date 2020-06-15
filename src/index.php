@@ -1,33 +1,35 @@
 <?php
 
-require_once('./../src/controllers/GameController.php');
+require_once __DIR__ . '/controllers/GameController.php';
 
-//switch ($_SERVER['REQUEST_METHOD']) {
-//    case 'POST':
-//        GameController::startGame();
-//        break;
-//    case 'PUT':
-//        echo "PUT";
-//        $response = GameController::makeAMove($_POST['game_data']);
-//        break;
-//    case 'GET':
-//        echo "GET";
-//        $response = GameController::getStatistics();
-//        break;
-//    default:
-////        exit('Not supported request');
-//}
+try {
+    $URI = parse_url($_SERVER['REQUEST_URI']);
 
-GameController::startGame();
+    switch ($URI['path']) {
+        case '/new_game':
+            $response = GameController::newGame();
+            break;
+        case '/new_move':
+            $response = GameController::newMove(urldecode($URI['query']));
+            break;
+        case '/game_state':
+            $response = GameController::getGameState();
+            break;
+        case '/game_status':
+            $response = GameController::getGameStatus();
+            break;
+        default:
+            $response = [
+                'ok' => false,
+                'message' => 'Invalid request',
+            ];
+    }
 
-for ($i = 1; $i < 10; $i++) {
-    var_dump(GameController::makeAMove(trim(fgets(STDIN))));
+    echo json_encode($response);
+} catch (Exception $e) {
+    return [
+        'ok' => false,
+        'message' => $e->getMessage(),
+    ];
 }
-$response = GameController::getStatistics();
 
-echo $response;
-
-//$class = new Pawn("Pawn", "white");
-//
-//echo $class->getName();
-//echo $class->validateMove();
