@@ -5,10 +5,9 @@ class GameService
     public static function validateMove($newMove, $gameState)
     {
         try {
-
             $nextMove = $gameState['nextMove'];
             $board = $gameState['board'];
-            $gameOver = $gameState['gameOver'];
+            $gameStatus = $gameState['gameStatus'];
 
             $fromLine = $newMove['from']['line'];
             $fromColumn = $newMove['from']['column'];
@@ -17,17 +16,17 @@ class GameService
             $figureOnStartCell = $board[$fromLine][$fromColumn];
             $figureOnFinishCell = $board[$toLine][$toColumn];
 
-            if ($gameOver == true) {
+            if ($gameStatus != 'The game is on') {
                 return [
                     'ok' => false,
-                    'message' => 'the game is already over',
+                    'message' => $gameState,
                 ];
             }
 
             if ($figureOnStartCell == null) {
                 return [
                     'ok' => false,
-                    'message' => 'trying to resemble a non-existent figure',
+                    'message' => 'Trying to resemble a non-existent figure',
                 ];
             }
 
@@ -41,7 +40,7 @@ class GameService
             if (($fromLine - $toLine == 0) && (ord($fromColumn) - ord($toColumn) == 0)) {
                 return [
                     'ok' => false,
-                    'message' => 'You cannot make the move to the same cage.',
+                    'message' => 'It is impossible to make a move to the same cage',
                 ];
             }
 
@@ -81,27 +80,25 @@ class GameService
 
             return [
                 'ok' => true,
-                'message' => 'move valid',
+                'message' => 'Valid move',
             ];
         } catch (Exception $e) {
             return [
                 'ok' => false,
-                'message' => "exception " . $e->getMessage(),
+                'message' => 'Exception in GameService::validateMove with message: ' . $e->getMessage(),
             ];
         }
     }
-
 
     public static function updateBoard($newMove)
     {
         try {
             $newMove = json_decode($newMove, true);
-
-            $gameState = json_decode(file_get_contents('board.txt'), true);
+            $gameState = json_decode(file_get_contents('data/gameState.json'), true);
 
             $nextMove = $gameState['nextMove'];
             $board = $gameState['board'];
-            $gameOver = $gameState['gameOver'];
+            $gameStatus = $gameState['gameStatus'];
 
             $fromLine = $newMove['from']['line'];
             $fromColumn = $newMove['from']['column'];
@@ -109,7 +106,6 @@ class GameService
             $toColumn = $newMove['to']['column'];
 
             $figureOnStartCell = $board[$fromLine][$fromColumn];
-            $figureOnFinishCell = $board[$toLine][$toColumn];
 
             if ($nextMove == 'white') {
                 $nextMove = 'black';
@@ -118,32 +114,28 @@ class GameService
             }
 
             $board[$fromLine][$fromColumn] = null;
-            $board[$toLine][$toColumn] = $figureOnStartCell;
-
-            if ($figureOnFinishCell['name'] == 'King') {
-                $gameOver = true;
+            if ($figureOnStartCell['name'] == 'Pawn' && ($toLine == 8 || $toLine == 1)) {
+                $figureOnStartCell['name'] = 'Queen';
+                $board[$toLine][$toColumn] = $figureOnStartCell;
+            } else {
+                $board[$toLine][$toColumn] = $figureOnStartCell;
             }
 
-            GameState::$nextMove = $nextMove;
-            GameState::$gameOver = $gameOver;
-            GameState::$board = $board;
 
-            echo GameState::$nextMove . "\n";
-
-            file_put_contents('board.txt', json_encode([
-                'nextMove' => GameState::$nextMove,
-                'gameOver' => GameState::$gameOver,
-                'board' => GameState::$board,
+            file_put_contents('data/gameState.json', json_encode([
+                'nextMove' => $nextMove,
+                'gameStatus' => $gameStatus,
+                'board' => $board,
             ]));
 
             return [
                 'ok' => true,
-                'message' => 'Succ update',
+                'message' => 'Update was successful',
             ];
         } catch (Exception $e) {
             return [
                 'ok' => false,
-                'message' => 'Exception in update - ' . $e->getMessage(),
+                'message' => 'Exception in GameService::updateBoard with message: ' . $e->getMessage(),
             ];
         }
     }
@@ -178,7 +170,6 @@ class GameService
                         'to' => ['line' => $lineOfKing, 'column' => $columnOfKing],
                     ];
                     $tempFigureCanBeatTheKing = self::validateMove($move, $gameState);
-                    echo $i . " " . $j . " " . $tempFigureCanBeatTheKing['message'] . "\n";
                     if ($tempFigureCanBeatTheKing['ok']) {
                         return true;
                     }
@@ -207,13 +198,11 @@ class GameService
                                 'to' => ['line' => $k, 'column' => $m],
                             ];
                             $canMove = self::validateMove($move, $gameState);
-                            if($canMove['ok']) {
+                            if ($canMove['ok']) {
                                 if (!self::kingWillInCheck($move, $gameState)) {
-                                    echo $i . ' ' . $j . ' ' . $k . ' ' . $m . "\n";
+                                    echo $i . " " . $j . " " . $k . " " . $m . "\n";
                                     return false;
                                 }
-                            } else {
-                                echo $i . ' ' . $j . ' ' . $k . ' ' . $m . " " . $canMove['message'] . "\n";
                             }
                         }
                     }
@@ -222,7 +211,6 @@ class GameService
         }
 
         return true;
-
     }
 
     private static function findKing($board, $colorOfCheckedKing, &$lineOfKing, &$columnOfKing)
@@ -237,5 +225,15 @@ class GameService
                 }
             }
         }
+    }
+
+    public static function setGameStatus($newGameStatus)
+    {
+        $gameState = json_decode(file_get_contents('data/gameState.json'), true);
+        file_put_contents('data/gameState.json', json_encode([
+            'nextMove' => $gameState['nextMove'],
+            'gameStatus' => $newGameStatus,
+            'board' => $gameState['board'],
+        ]));
     }
 }

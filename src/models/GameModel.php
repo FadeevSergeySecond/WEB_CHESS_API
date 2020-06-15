@@ -2,35 +2,34 @@
 
 class GameModel
 {
-
     /*
-     * jsonExample
+     * valudateInput return [
+     *     'ok' => res,
+           'message' => mes,
+     * ]
+     * res == true and mes == 'String valid' if data is json complying
+     * with the following rules:
      * {
-     *  "from": {
-     *      "line": int fron 1 to 8
-     *      "colomn": string [a .. h]
-     *  }
-     *  "to": {
-     *      "line": int fron 1 to 8
-     *      "colomn": string [a .. h]
-     *  }
+     *     "from": {
+     *         "line": number from 1 to 8
+     *         "column": single letter string 'a' to 'h'
+     *     }
+     *     "to": {
+     *         "line": number from 1 to 8
+     *         "column": single letter string 'a' to 'h'
+     *     }
      * }
+     * else result = false
+     * and an error is written in mes
      * */
 
-    // checks that the string is json
-    public static function isJSON($string)
-    {
-        return is_string($string) && (is_object(json_decode($string)) || is_array(json_decode($string)));
-    }
-
-    // Checks input json for validity
     public static function validateInput($data)
     {
         try {
             if (!GameModel::isJSON($data)) {
                 return [
                     'ok' => false,
-                    'message' => 'no json input',
+                    'message' => 'Input is not json',
                 ];
             }
             $data = json_decode($data, true);
@@ -52,14 +51,14 @@ class GameModel
             if (!is_array($data['from']) || !is_array($data['to'])) {
                 return [
                     'ok' => false,
-                    'message' => 'Invalid json. ',
+                    'message' => 'Invalid json',
                 ];
             }
 
             if (count($data['from']) != 2 || count($data['to']) != 2) {
                 return [
                     'ok' => false,
-                    'message' => 'Invalid json',
+                    'message' => 'Invalid json. \'from\' and \'to\' should contains 2 pair key-value',
                 ];
             }
 
@@ -101,13 +100,18 @@ class GameModel
 
             return [
                 'ok' => true,
-                'message' => 'string valid',
+                'message' => 'String valid',
             ];
         } catch (Exception $e) {
             return [
                 'ok' => false,
-                'message' => $e->getMessage() . "\n",
+                'message' => 'Exception in GameModel::validateInput with message: ' . $e->getMessage(),
             ];
         }
+    }
+
+    private static function isJSON($string)
+    {
+        return is_string($string) && (is_object(json_decode($string)) || is_array(json_decode($string)));
     }
 }
