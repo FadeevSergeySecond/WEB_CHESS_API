@@ -125,4 +125,45 @@ JSON, описывающих ход E2 - E4
 `http://домен/new_move?{"from":{"line":7,"column":"h"},"to":{"line":5,"column":"h"}}`, к примеру:  
 `http://localhost:8080/new_move?{"from":{"line":7,"column":"h"},"to":{"line":5,"column":"h"}}`
 
+В ответ на такой запрос Вы получите ответ в формате JSON:
+```
+{
+    "ok": true,
+    "message": "Update was successful"
+}
+```
+если новый ход был сделан, или 
+```
+{
+    "ok": false,
+    "message": "Сообщение об ошибке"
+}
+```
+если новый ход сделан не был.  
+Возможные сообщения об ошибке:  
 
+* Input is not json
+* Invalid json
+* Invalid json. Pairs key value is not two
+* Invalid json. Json must contain a key 'from' and 'to'
+* Invalid json. 'from' and 'to' should contains 2 pair key-value
+* Invalid start call
+* Invalid finish call
+* Trying to resemble a non-existent figure
+* The move must be made by the other side
+* It is impossible to make a move to the same cage
+* You can’t go to the field occupied by your figure
+* A bishop cannot make such a move
+* A bishop cannot jump over shapes
+* A king cannot make such a move
+* A knight cannot make such a move
+* A pawn cannot make such a move
+* A pawn cannot jump over shapes
+* A pawn cannot move forward into the cell in which the chess piece stands
+* A move not forward is possible only to take someone else's piece
+* A queen cannot jump over shapes
+* A queen cannot make such a move
+* A rook cannot make such a move
+* A rook cannot jump over shapes
+* A move is impossible. Checkmate declared to the white/black king
+* As a result of the move, the king will be under the check
