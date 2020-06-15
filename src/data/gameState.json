@@ -1,0 +1,182 @@
+{
+  "nextMove": "white",
+  "gameStatus": "The game is on",
+  "board": {
+    "3": {
+      "a": null,
+      "b": null,
+      "c": null,
+      "d": null,
+      "e": null,
+      "f": null,
+      "g": null,
+      "h": null
+    },
+    "4": {
+      "a": null,
+      "b": null,
+      "c": null,
+      "d": null,
+      "e": null,
+      "f": null,
+      "g": null,
+      "h": null
+    },
+    "5": {
+      "a": null,
+      "b": null,
+      "c": null,
+      "d": null,
+      "e": null,
+      "f": null,
+      "g": null,
+      "h": null
+    },
+    "6": {
+      "a": null,
+      "b": null,
+      "c": null,
+      "d": null,
+      "e": null,
+      "f": null,
+      "g": null,
+      "h": null
+    },
+    "2": {
+      "a": {
+        "name": "Pawn",
+        "color": "white"
+      },
+      "b": {
+        "name": "Pawn",
+        "color": "white"
+      },
+      "c": {
+        "name": "Pawn",
+        "color": "white"
+      },
+      "d": {
+        "name": "Pawn",
+        "color": "white"
+      },
+      "e": {
+        "name": "Pawn",
+        "color": "white"
+      },
+      "f": {
+        "name": "Pawn",
+        "color": "white"
+      },
+      "g": {
+        "name": "Pawn",
+        "color": "white"
+      },
+      "h": {
+        "name": "Pawn",
+        "color": "white"
+      }
+    },
+    "7": {
+      "a": {
+        "name": "Pawn",
+        "color": "black"
+      },
+      "b": {
+        "name": "Pawn",
+        "color": "black"
+      },
+      "c": {
+        "name": "Pawn",
+        "color": "black"
+      },
+      "d": {
+        "name": "Pawn",
+        "color": "black"
+      },
+      "e": {
+        "name": "Pawn",
+        "color": "black"
+      },
+      "f": {
+        "name": "Pawn",
+        "color": "black"
+      },
+      "g": {
+        "name": "Pawn",
+        "color": "black"
+      },
+      "h": {
+        "name": "Pawn",
+        "color": "black"
+      }
+    },
+    "1": {
+      "a": {
+        "name": "Rook",
+        "color": "white"
+      },
+      "h": {
+        "name": "Rook",
+        "color": "white"
+      },
+      "b": {
+        "name": "Knight",
+        "color": "white"
+      },
+      "g": {
+        "name": "Knight",
+        "color": "white"
+      },
+      "c": {
+        "name": "Bishop",
+        "color": "white"
+      },
+      "f": {
+        "name": "Bishop",
+        "color": "white"
+      },
+      "d": {
+        "name": "Queen",
+        "color": "white"
+      },
+      "e": {
+        "name": "King",
+        "color": "white"
+      }
+    },
+    "8": {
+      "a": {
+        "name": "Rook",
+        "color": "black"
+      },
+      "h": {
+        "name": "Rook",
+        "color": "black"
+      },
+      "b": {
+        "name": "Knight",
+        "color": "black"
+      },
+      "g": {
+        "name": "Knight",
+        "color": "black"
+      },
+      "c": {
+        "name": "Bishop",
+        "color": "black"
+      },
+      "f": {
+        "name": "Bishop",
+        "color": "black"
+      },
+      "d": {
+        "name": "Queen",
+        "color": "black"
+      },
+      "e": {
+        "name": "King",
+        "color": "black"
+      }
+    }
+  }
+}
