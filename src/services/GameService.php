@@ -2,11 +2,9 @@
 
 class GameService
 {
-    public static function validateMove($newMove)
+    public static function validateMove($newMove, $gameState)
     {
         try {
-            $gameState = json_decode(file_get_contents('board.txt'), true);
-            $newMove = json_decode($newMove, true);
 
             $nextMove = $gameState['nextMove'];
             $board = $gameState['board'];
@@ -70,11 +68,8 @@ class GameService
                     break;
             }
 
-            if ($result['ok'] == false) {
-                return [
-                    'ok' => false,
-                    'message' => 'Invalid move for this fig',
-                ];
+            if (!$result['ok']) {
+                return $result;
             }
 
             if ($figureOnStartCell['color'] == $figureOnFinishCell['color']) {
@@ -152,4 +147,60 @@ class GameService
             ];
         }
     }
+
+    public static function kingWillInCheck($newMove): bool
+    {
+        $gameState = json_decode(file_get_contents('board.txt'), true);
+
+        $fromLine = $newMove['from']['line'];
+        $fromColumn = $newMove['from']['column'];
+        $toLine = $newMove['to']['line'];
+        $toColumn = $newMove['to']['column'];
+
+        $figureOnStartCell = $gameState['board'][$fromLine][$fromColumn];
+        $gameState['board'][$fromLine][$fromColumn] = null;
+        $gameState['board'][$toLine][$toColumn] = $figureOnStartCell;
+        $gameState['nextMove'] = $figureOnStartCell['color'] == 'white' ? 'black' : 'white';
+        return self::kingInCheck($gameState, $figureOnStartCell['color']);
+    }
+
+    public static function kingInCheck($gameState, $colorOfCheckedKing): bool
+    {
+        $board = $gameState['board'];
+        $lineOfKing = null;
+        $columnOfKing = null;
+        for ($i = 1; $i <= 8; $i++) {
+            for ($j = 'a'; $j != 'i'; $j++) {
+                if ($board[$i][$j]['name'] == 'King' && $board[$i][$j]['color'] == $colorOfCheckedKing) {
+                    echo $i . " " . $j . "\n";
+                    $lineOfKing = $i;
+                    $columnOfKing = $j;
+                }
+            }
+        }
+
+        for ($i = 1; $i <= 8; $i++) {
+            for ($j = 'a'; $j != 'i'; $j++) {
+                if ($board[$i][$j]['color'] != $colorOfCheckedKing) {
+                    $move = [
+                        'from' => ['line' => $i, 'column' => $j],
+                        'to' => ['line' => $lineOfKing, 'column' => $columnOfKing],
+                    ];
+                    $tempFigureCanBeatTheKing = self::validateMove($move, $gameState);
+                    echo $i . " " . $j . " " . $tempFigureCanBeatTheKing['message'] . "\n";
+                    if ($tempFigureCanBeatTheKing['ok']) {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+
+//    public static function kingInCheckmate($gameState): bool
+//    {
+//
+//
+//    }
 }
