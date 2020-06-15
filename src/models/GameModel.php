@@ -2,10 +2,11 @@
 
 class GameModel
 {
-    /*
+    /**
+     *
      * valudateInput return [
      *     'ok' => res,
-           'message' => mes,
+     * 'message' => mes,
      * ]
      * res == true and mes == 'String valid' if data is json complying
      * with the following rules:
@@ -21,7 +22,9 @@ class GameModel
      * }
      * else result = false
      * and an error is written in mes
-     * */
+     * @param string $data
+     * @return array
+     */
 
     public static function validateInput($data)
     {
@@ -110,6 +113,13 @@ class GameModel
         }
     }
 
+    /**
+     *
+     * return true is $string is json, else return false
+     *
+     * @param string $string
+     * @return bool
+     */
     private static function isJSON($string)
     {
         return is_string($string) && (is_object(json_decode($string)) || is_array(json_decode($string)));

@@ -6,6 +6,16 @@ require_once __DIR__ . '/../chessObjects/GameState.php';
 
 class GameController
 {
+    /**
+     * return [
+     *     'ok' => res,
+     *     'message' => mes,
+     * ]
+     *
+     * res == true and mes = 'New game started' if was started new game
+     *
+     * @return array
+     */
     public static function newGame()
     {
         try {
@@ -22,6 +32,18 @@ class GameController
         }
     }
 
+    /**
+     * newMove return [
+     *     'ok' => res,
+     *     'message' => mes,
+     * ]
+     *
+     * res == true if new move has been made
+     * else res == false
+     *
+     * @param string $gameData
+     * @return array
+     */
     public static function newMove($gameData)
     {
         try {
@@ -67,11 +89,22 @@ class GameController
         }
     }
 
+    /**
+     * Return json with game state
+     *
+     * @return string
+     */
+
     public static function getGameState()
     {
         return file_get_contents('data/gameState.json');
     }
 
+    /**
+     * Return game status
+     *
+     * @return string
+     */
     public static function getGameStatus()
     {
         return json_decode(file_get_contents('data/gameState.json'), true)['gameStatus'];

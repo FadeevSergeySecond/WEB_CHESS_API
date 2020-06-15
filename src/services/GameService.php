@@ -2,6 +2,23 @@
 
 class GameService
 {
+
+    /**
+     * valudateInput return [
+     *     'ok' => res,
+     *     'message' => mes,
+     * ]
+     * res == true and mes == 'Valid move' if $newMove is json that describing
+     * the move that can be made according to the rules
+     *
+     * else result = false
+     * and mes contains the reason why the move cannot be made
+     *
+     * @param array $newMove
+     * @param array $gameState
+     * @return array
+     */
+
     public static function validateMove($newMove, $gameState)
     {
         try {
@@ -90,6 +107,14 @@ class GameService
         }
     }
 
+    /**
+     * Updates data/gameState.json
+     * On the new data/gameState.json the move is made
+     *
+     * @param string $newMove
+     * @return array
+     */
+
     public static function updateBoard($newMove)
     {
         try {
@@ -140,6 +165,15 @@ class GameService
         }
     }
 
+    /**
+     * return true, if after $newMove the king of the walking side will be under the check
+     * else return false
+     *
+     * @param array $newMove with new move
+     * @param array $gameState
+     * @return bool
+     */
+
     public static function kingWillInCheck($newMove, $gameState): bool
     {
         $fromLine = $newMove['from']['line'];
@@ -153,6 +187,15 @@ class GameService
         $gameState['nextMove'] = $figureOnStartCell['color'] == 'white' ? 'black' : 'white';
         return self::kingInCheck($gameState, $figureOnStartCell['color']);
     }
+
+    /**
+     * return true, if on $gameState king with color - $colorOfCheckedKing under the check
+     * else return false
+     *
+     * @param array $gameState
+     * @param string $colorOfCheckedKing for example 'white'
+     * @return bool
+     */
 
     public static function kingInCheck($gameState, $colorOfCheckedKing): bool
     {
@@ -179,6 +222,15 @@ class GameService
 
         return false;
     }
+
+    /**
+     * return true, if on $gameState king with color - $colorOfCheckedKing under the check
+     * else return false
+     *
+     * @param array $gameState
+     * @param string $colorOfCheckedKing for example 'white'
+     * @return bool
+     */
 
     public static function kingInCheckmate($gameState, $colorOfCheckedKing): bool
     {
@@ -213,6 +265,14 @@ class GameService
         return true;
     }
 
+    /**
+     * @param array $board array
+     * @param string $colorOfCheckedKing string
+     * @param int $lineOfKing from 1 to 8
+     * @param string $columnOfKing single letter string 'a' to 'h'
+     *
+     */
+
     private static function findKing($board, $colorOfCheckedKing, &$lineOfKing, &$columnOfKing)
     {
         for ($i = 1; $i <= 8; $i++) {
@@ -226,6 +286,11 @@ class GameService
             }
         }
     }
+
+    /**
+     * @param string $newGameStatus
+     * Record a new status of game in data/gameState.json
+     */
 
     public static function setGameStatus($newGameStatus)
     {
