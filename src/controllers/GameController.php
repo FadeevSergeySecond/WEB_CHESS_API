@@ -62,13 +62,13 @@ class GameController
 
             if (GameService::kingWillInCheck($gameDataArray, $gameState)) {
                 if (GameService::kingInCheckmate($gameState, $gameState['nextMove'])) {
-                    $colorLosingSide = $gameState['nextMove'];
-
-                    GameService::setGameStatus("Game over, $colorLosingSide lost");
+                    $winColor = $gameState['nextMove'] == 'white' ? 'black' : 'white';
+                    $loseColor = $gameState['nextMove'];
+                    GameService::setGameStatus("Game over, $winColor win");
 
                     return [
                         'ok' => false,
-                        'message' => "A move is impossible. Checkmate declared to the $colorLosingSide king",
+                        'message' => "A move is impossible. Checkmate declared to the $loseColor king",
                     ];
 
                 } else {
