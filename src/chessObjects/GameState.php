@@ -1,27 +1,26 @@
 <?php
 
-require_once('/Users/Fadeev/Downloads/vk/src/chessObjects/Bishop.php');
-require_once('/Users/Fadeev/Downloads/vk/src/chessObjects/King.php');
-require_once('/Users/Fadeev/Downloads/vk/src/chessObjects/Knight.php');
-require_once('/Users/Fadeev/Downloads/vk/src/chessObjects/Pawn.php');
-require_once('/Users/Fadeev/Downloads/vk/src/chessObjects/Queen.php');
-require_once('/Users/Fadeev/Downloads/vk/src/chessObjects/Rook.php');
+require_once __DIR__ . '/Bishop.php';
+require_once __DIR__ . '/King.php';
+require_once __DIR__ . '/Knight.php';
+require_once __DIR__ . '/Pawn.php';
+require_once __DIR__ . '/Queen.php';
+require_once __DIR__ . '/Rook.php';
 
 class GameState implements JsonSerializable
 {
     public static $nextMove;
-    public static $gameOver;
+    public static $gameStatus;
     public static $board;
 
     public function __construct()
     {
         self::$nextMove = 'white';
-        self::$gameOver = false;
+        self::$gameStatus = 'The game is on';
 
-        $lines = [1, 2, 3, 4, 5, 6, 7, 8];
         $columns = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
 
-        foreach (array_slice($lines, 2, 4) as $line) {
+        foreach ([3, 4, 5, 6] as $line) {
             foreach ($columns as $column) {
                 self::$board[$line][$column] = null;
             }
@@ -59,7 +58,7 @@ class GameState implements JsonSerializable
     {
         return [
             'nextMove' => self::$nextMove,
-            'gameOver' => self::$gameOver,
+            'gameStatus' => self::$gameStatus,
             'board' => self::$board,
         ];
     }
