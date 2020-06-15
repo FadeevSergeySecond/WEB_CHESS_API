@@ -1,10 +1,9 @@
 <?php
 
-require_once('/Users/Fadeev/Downloads/vk/src/chessObjects/Figure.php');
+require_once __DIR__ . '/Figure.php';
 
 class Queen extends Figure
 {
-    // guaranteed that from and to are on the board
     public static function validateMove($newMove, $board)
     {
         try {

@@ -1,10 +1,9 @@
 <?php
 
-require_once('/Users/Fadeev/Downloads/vk/src/chessObjects/Figure.php');
+require_once __DIR__ . '/Figure.php';
 
 class Rook extends Figure
 {
-    // guaranteed that from and to are on the board
     public static function validateMove($newMove, $board)
     {
         try {
@@ -25,7 +24,7 @@ class Rook extends Figure
 
             if ($deltaLine == 0) {
                 $normDeltaColumn = $deltaColumn / abs($deltaColumn);
-                for ($j = $fromColumn + $normDeltaColumn; $j != $toColumn; $j += $normDeltaColumn) {
+                for ($j = chr(ord($fromColumn) + $normDeltaColumn); $j != $toColumn; $j = chr(ord($j) + $normDeltaColumn)) {
                     if ($board[$toLine][$j] != null) {
                         return [
                             'ok' => false,
@@ -37,7 +36,6 @@ class Rook extends Figure
 
             if ($deltaColumn == 0) {
                 $normDeltaLine = $deltaLine / abs($deltaLine);
-                echo $normDeltaLine . "\n";
                 for ($i = $fromLine + $normDeltaLine; $i != $toLine; $i += $normDeltaLine) {
                     if ($board[$i][$toColumn] != null) {
                         return [

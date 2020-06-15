@@ -1,10 +1,9 @@
 <?php
 
-require_once('/Users/Fadeev/Downloads/vk/src/chessObjects/Figure.php');
+require_once __DIR__ . '/Figure.php';
 
 class King extends Figure
 {
-    // guaranteed that from and to are on the board
     public static function validateMove($newMove, $board)
     {
         try {
@@ -15,7 +14,6 @@ class King extends Figure
 
             $deltaLine = $toLine - $fromLine;
             $deltaColumn = ord($toColumn) - ord($fromColumn);
-            echo $deltaLine . "\n";
             if (abs($deltaLine) > 1 || abs($deltaColumn) > 1) {
                 return [
                     'ok' => false,

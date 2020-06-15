@@ -1,7 +1,6 @@
 <?php
 
-//require_once('/Users/Fadeev/Downloads/vk/src/chessObjects/Figure.php');
-include 'Figure.php';
+require_once __DIR__ . '/Figure.php';
 
 class Bishop extends Figure
 {
@@ -46,7 +45,6 @@ class Bishop extends Figure
             ];
         }
     }
-
 
     public function jsonSerialize()
     {

@@ -1,10 +1,9 @@
 <?php
 
-require_once('/Users/Fadeev/Downloads/vk/src/chessObjects/Figure.php');
+require_once __DIR__ . '/Figure.php';
 
 class Pawn extends Figure
 {
-    // guaranteed that from and to are on the board
     public static function validateMove($newMove, $board)
     {
         try {
@@ -17,7 +16,7 @@ class Pawn extends Figure
             $deltaColumn = ord($toColumn) - ord($fromColumn);
 
             $ok = false;
-            $message = 'Invalid move';
+            $message = 'A pawn cannot make such a move';
 
             $colorOfPawn = $board[$fromLine][$fromColumn]['color'];
             $signColor = $colorOfPawn == 'white' ? 1 : -1;
