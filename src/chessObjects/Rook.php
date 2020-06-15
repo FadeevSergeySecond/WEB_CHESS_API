@@ -53,7 +53,7 @@ class Rook extends Figure
         } catch (Exception $e) {
             return [
                 'ok' => false,
-                'message' => $e->getMessage(),
+                'message' => 'Exception in Rook::validateMove with message: ' . $e->getMessage(),
             ];
         }
     }

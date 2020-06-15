@@ -60,7 +60,7 @@ class Pawn extends Figure
         } catch (Exception $e) {
             return [
                 'ok' => false,
-                'message' => $e->getMessage(),
+                'message' => 'Exception in Pawn::validateMove with message: ' . $e->getMessage(),
             ];
         }
     }

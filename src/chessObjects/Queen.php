@@ -30,7 +30,7 @@ class Queen extends Figure
         } catch (Exception $e) {
             return [
                 'ok' => false,
-                'message' => $e->getMessage(),
+                'message' => 'Exception in Queen::validateMove with message: ' . $e->getMessage(),
             ];
         }
     }

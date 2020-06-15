@@ -36,12 +36,12 @@ class Bishop extends Figure
             }
             return [
                 'ok' => true,
-                'message' => 'the move is valid',
+                'message' => 'The move is valid',
             ];
         } catch (Exception $e) {
             return [
                 'ok' => false,
-                'message' => $e->getMessage(),
+                'message' => 'Exception in Bishop::validateMove with message: ' . $e->getMessage(),
             ];
         }
     }

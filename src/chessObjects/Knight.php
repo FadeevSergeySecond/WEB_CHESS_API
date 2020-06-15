@@ -30,7 +30,7 @@ class Knight extends Figure
         } catch (Exception $e) {
             return [
                 'ok' => false,
-                'message' => $e->getMessage(),
+                'message' => 'Exception in Knight::validateMove with message: ' . $e->getMessage(),
             ];
         }
     }
