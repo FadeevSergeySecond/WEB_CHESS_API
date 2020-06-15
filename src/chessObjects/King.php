@@ -8,8 +8,6 @@ class King extends Figure
     public static function validateMove($newMove, $board)
     {
         try {
-            $newMove = json_decode($newMove, true);
-
             $fromLine = $newMove['from']['line'];
             $fromColumn = $newMove['from']['column'];
             $toLine = $newMove['to']['line'];
@@ -17,9 +15,8 @@ class King extends Figure
 
             $deltaLine = $toLine - $fromLine;
             $deltaColumn = ord($toColumn) - ord($fromColumn);
-
-
-            if ((abs($deltaLine) > 1 || abs($deltaColumn)) > 1) {
+            echo $deltaLine . "\n";
+            if (abs($deltaLine) > 1 || abs($deltaColumn) > 1) {
                 return [
                     'ok' => false,
                     'message' => 'A king cannot make such a move',

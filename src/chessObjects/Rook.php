@@ -8,15 +8,13 @@ class Rook extends Figure
     public static function validateMove($newMove, $board)
     {
         try {
-            $newMove = json_decode($newMove, true);
-
             $fromLine = $newMove['from']['line'];
             $fromColumn = $newMove['from']['column'];
             $toLine = $newMove['to']['line'];
             $toColumn = $newMove['to']['column'];
 
-            $deltaLine = $fromLine - $toLine;
-            $deltaColumn = ord($fromColumn) - ord($toColumn);
+            $deltaLine = $toLine - $fromLine;
+            $deltaColumn = ord($toColumn) - ord($fromColumn);
 
             if ($deltaLine != 0 && $deltaColumn != 0) {
                 return [
@@ -28,7 +26,7 @@ class Rook extends Figure
             if ($deltaLine == 0) {
                 $normDeltaColumn = $deltaColumn / abs($deltaColumn);
                 for ($j = $fromColumn + $normDeltaColumn; $j != $toColumn; $j += $normDeltaColumn) {
-                    if ($board[$toLine][$j]) {
+                    if ($board[$toLine][$j] != null) {
                         return [
                             'ok' => false,
                             'message' => 'A rook cannot jump over shapes',
@@ -39,8 +37,9 @@ class Rook extends Figure
 
             if ($deltaColumn == 0) {
                 $normDeltaLine = $deltaLine / abs($deltaLine);
+                echo $normDeltaLine . "\n";
                 for ($i = $fromLine + $normDeltaLine; $i != $toLine; $i += $normDeltaLine) {
-                    if ($board[$i][$toColumn]) {
+                    if ($board[$i][$toColumn] != null) {
                         return [
                             'ok' => false,
                             'message' => 'A rook cannot jump over shapes',

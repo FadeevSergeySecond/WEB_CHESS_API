@@ -8,8 +8,6 @@ class Pawn extends Figure
     public static function validateMove($newMove, $board)
     {
         try {
-            $newMove = json_decode($newMove, true);
-
             $fromLine = $newMove['from']['line'];
             $fromColumn = $newMove['from']['column'];
             $toLine = $newMove['to']['line'];

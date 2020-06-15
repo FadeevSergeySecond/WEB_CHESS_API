@@ -8,14 +8,13 @@ class Bishop extends Figure
     public static function validateMove($newMove, $board)
     {
         try {
-            $newMove = json_decode($newMove, true);
             $fromLine = $newMove['from']['line'];
             $fromColumn = $newMove['from']['column'];
             $toLine = $newMove['to']['line'];
             $toColumn = $newMove['to']['column'];
 
             $deltaLine = $toLine - $fromLine;
-            $deltaColumn = ord($fromColumn) - ord($toColumn);
+            $deltaColumn = ord($toColumn) - ord($fromColumn);
 
             if (!(abs($deltaLine) - abs($deltaColumn)) == 0) {
                 return [
@@ -26,9 +25,9 @@ class Bishop extends Figure
 
             $normDeltaLine = $deltaLine / abs($deltaLine);
             $normDeltaColumn = $deltaColumn / abs($deltaColumn);
-            for ($i = $fromLine + $normDeltaLine, $j = $fromColumn + $normDeltaColumn;
+            for ($i = $fromLine + $normDeltaLine, $j = chr(ord($fromColumn) + $normDeltaColumn);
                  $i != $toLine && $j != $toColumn;
-                 $i += $normDeltaLine, $j += $normDeltaColumn) {
+                 $i += $normDeltaLine, $j = chr(ord($j) + $normDeltaColumn)) {
                 if ($board[$i][$j] != null) {
                     return [
                         'ok' => false,

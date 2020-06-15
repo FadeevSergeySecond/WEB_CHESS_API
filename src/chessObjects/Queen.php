@@ -19,12 +19,12 @@ class Queen extends Figure
             } else if ($validMoveForBishop['message'] == 'A bishop cannot jump over shapes' ||
                 $validMoveForRook['message'] == 'A rook cannot jump over shapes') {
                 return [
-                    'ok' => true,
+                    'ok' => false,
                     'message' => 'A queen cannot jump over shapes',
                 ];
             } else {
                 return [
-                    'ok' => true,
+                    'ok' => false,
                     'message' => 'A queen cannot make such a move',
                 ];
             }
