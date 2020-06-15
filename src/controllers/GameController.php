@@ -38,8 +38,8 @@ class GameController
      *     'message' => mes,
      * ]
      *
-     * res == true if new move has been made
-     * else res == false
+     * res == true and mes = 'Update was successful' if new move has been made
+     * else res == false and mes contains the reason why the move is impossible
      *
      * @param string $gameData
      * @return array
